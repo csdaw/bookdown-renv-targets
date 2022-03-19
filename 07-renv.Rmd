@@ -17,6 +17,19 @@ install explicitly in the env with e.g. `renv::install("dplyr@0.8.5")`.
 each chapter individually) you'll need to run `renv_restore.R` for each chapter
 individually.
 
+## Targets
+
+Currently, to build the entire book on another completely fresh computer/using GHA, you'd have
+to use `renv_restore.R` for each chapter to install the dependencies for each
+chapter and only then could you run `rmarkdown::render_site()` wherein each
+chapter is knitted individually (and `renv::load()` is called for each chapter 
+so that it is knitted with its dependencies) and the result is merged.
+
+Here is where I think targets would come in handy wherein you check if the 
+chapter has changed and if it hasn't don't run `renv_restore.R`? Actually no,
+because there is no way for `rmarkdown::render_site()` to just knit certain
+files.
+
 ## GHA
 
 2 options:
