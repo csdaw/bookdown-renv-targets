@@ -1,5 +1,11 @@
 # Sharing your book
 
+```{r}
+library(dplyr)
+packageVersion("dplyr")
+```
+
+
 ## Publishing
 
 HTML books can be published online, see: https://bookdown.org/yihui/bookdown/publishing.html

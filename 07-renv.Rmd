@@ -1,5 +1,48 @@
 # Using renv {#renv}
 
+## Basic workflow
+
+- Create a chapter Rmd in root
+- Create a chapter folder in root
+- Create a renv environment for that chapter with `renv_new.R`
+- Activate the renv env for a given chapter by running the code block below.
+This is not done automatically as there will be multiple renv envs for the book
+(one per chapter) and you don't know which one you want at a given time.
+- Start writing content in child Rmds in chapter folder
+- If you need specific package versions not installed on your system R then 
+install explicitly in the env with e.g. `renv::install("dplyr@0.8.5")`.
+- When in the renv env, run `renv_snapshot.R` occasionally.
+- Be sure to use `renv_unload.R` when you are done working on a chapter.
+- Before building the book locally (which is done by knit and merge method, i.e. knitting
+each chapter individually) you'll need to run `renv_restore.R` for each chapter
+individually.
+
+## GHA
+
+2 options:
+
+1. Build book locally, commit built book and just deploy _book directory using Github pages.
+I'll probably just do this because I am lazy. Use renv profiles per chapter (like here https://github.com/matt-dray/rostrum-blog/commit/b06036b87dba5096664294a66f2eec2d32bb1963).
+2. Make a GHA to build book based off of the standard bookdown workflow
+(https://github.com/r-lib/actions/blob/v1/examples/bookdown.yaml).
+One would take this and modify the renv workflow
+(https://github.com/r-lib/actions/blob/v2-branch/setup-renv/action.yaml) to 
+somehow use initially just a loop to restore each renv env individually, and 
+eventually maybe targets to only restore and reknit changed chapters I suppose.
+I don't yet know enough about targets to bother with this.
+
+- You would have to explicitly install these dependencies first:
+  - renv?
+  - bookdown
+  - downlit?
+  - bslib?
+  - that xml thingy
+  - targets
+
+Option 2b: 
+
+## Targets 
+
 ```{r}
 #### renv_load() - Load the renv library ####
 chapter <- "07-renv"
@@ -9,7 +52,7 @@ proj_root <- rprojroot::find_root("_bookdown.yml")
 renv_path <- paste0(proj_root, "/_renv/", chapter)
 
 message(renv_path)
-renv::load(project = renv_path)
+renv::load(project = renv_path, quiet = FALSE)
 ```
 
 ```{r, child="07-renv/child.Rmd"}
