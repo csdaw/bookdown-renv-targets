@@ -8,13 +8,9 @@ proj_root <- rprojroot::find_root("_bookdown.yml")
 
 renv_path <- paste0(proj_root, "/_renv/", chapter)
 
-print(renv_path)
-#renv::load(project = renv_path)
+message(renv_path)
+renv::load(project = renv_path)
 ```
 
-This is a test chapter to see if renv works.
-
-```{r}
-#library(dplyr)
-#ToothGrowth %>% select(len)
+```{r, child="07-renv/child.Rmd"}
 ```

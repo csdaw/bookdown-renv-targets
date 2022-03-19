@@ -1,0 +1,15 @@
+This is a test chapter to see if renv works.
+
+```{r}
+library(dplyr)
+```
+
+Here are some sections added in the child document.
+
+## A section in the child doc
+
+The code block below introduces a dependency in the child doc.
+
+```{r}
+library(ggplot2)
+```
